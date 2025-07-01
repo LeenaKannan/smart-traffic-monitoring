@@ -1,7 +1,7 @@
-# docker/Dockerfile
+# docker/Dockerfile.rpi
 FROM python:3.9-slim
 
-# Install system dependencies
+# Install system dependencies for Raspberry Pi
 RUN apt-get update && apt-get install -y \
   libgl1-mesa-glx \
   libglib2.0-0 \
@@ -12,37 +12,32 @@ RUN apt-get update && apt-get install -y \
   libgstreamer1.0-0 \
   gstreamer1.0-plugins-base \
   gstreamer1.0-plugins-good \
-  gstreamer1.0-plugins-bad \
-  gstreamer1.0-plugins-ugly \
-  tesseract-ocr \
-  tesseract-ocr-eng \
+  python3-opencv \
   && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
-# Copy requirements first for better caching
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+# Copy requirements for Pi
+COPY requirements_rpi.txt .
+RUN pip install --no-cache-dir -r requirements_rpi.txt
 
-# Copy application code
+# Copy application
 COPY . .
 
-# Create necessary directories
-RUN mkdir -p data/raw data/processed data/models logs
+# Create directories
+RUN mkdir -p data/models logs
 
-# Download YOLOv8 model
+# Download YOLOv8 nano model
 RUN python -c "from ultralytics import YOLO; YOLO('yolov8n.pt')"
 
-# Set environment variables
+# Set environment
 ENV PYTHONPATH=/app
 ENV PYTHONUNBUFFERED=1
 
 # Health check
-HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:8000/health || exit 1
+HEALTHCHECK --interval=60s --timeout=30s --start-period=10s --retries=3 \
+  CMD python -c "import cv2; print('OK')" || exit 1
 
-# Expose port
 EXPOSE 8000
 
-# Start application
-CMD ["python", "-m", "app.main"]
+CMD ["python", "demo/rpi_demo.py"]
