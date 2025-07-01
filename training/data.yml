@@ -1,0 +1,17 @@
+path: ./training/datasets/combined
+train: train/images
+val: val/images
+test: test/images
+
+nc: 8 # Number of classes
+names:
+  [
+    "car",
+    "motorcycle",
+    "bus",
+    "truck",
+    "auto_rickshaw",
+    "bicycle",
+    "person",
+    "traffic_light",
+  ]
