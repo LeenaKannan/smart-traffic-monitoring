@@ -1,0 +1,52 @@
+smart-traffic-monitoring/
+├── app/
+│   ├── __init__.py
+│   ├── main.py
+│   ├── config/
+│   │   ├── __init__.py
+│   │   └── settings.py
+│   ├── models/
+│   │   ├── __init__.py
+│   │   ├── vehicle_detector.py
+│   │   ├── violation_detector.py
+│   │   ├── license_plate_recognizer.py
+│   │   └── traffic_density_estimator.py
+│   ├── services/
+│   │   ├── __init__.py
+│   │   ├── stream_processor.py
+│   │   ├── traffic_controller.py
+│   │   ├── violation_service.py
+│   │   └── analytics_service.py
+│   ├── utils/
+│   │   ├── __init__.py
+│   │   ├── video_utils.py
+│   │   ├── tracking_utils.py
+│   │   └── preprocessing.py
+│   ├── api/
+│   │   ├── __init__.py
+│   │   ├── routes.py
+│   │   └── websocket_handler.py
+│   └── database/
+│       ├── __init__.py
+│       ├── models.py
+│       └── connection.py
+├── data/
+│   ├── raw/
+│   ├── processed/
+│   └── models/
+├── docker/
+│   ├── Dockerfile
+│   ├── docker-compose.yml
+│   └── nginx.conf
+├── frontend/
+│   ├── src/
+│   ├── public/
+│   └── package.json
+├── scripts/
+│   ├── setup.sh
+│   ├── train_models.py
+│   └── deploy.sh
+├── tests/
+├── docs/
+├── requirements.txt
+└── README.md
