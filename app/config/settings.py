@@ -2,7 +2,7 @@
 import os
 from pydantic import BaseSettings
 from typing import List, Optional
-
+import platform
 class Settings(BaseSettings):
     
     IS_RASPBERRY_PI: bool = platform.machine().startswith('arm')
@@ -13,9 +13,10 @@ class Settings(BaseSettings):
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000
     DEBUG: bool = False
-    
+
     # AI Model Paths
-    YOLO_MODEL_PATH: str = "data/models/yolov8n.pt"
+    YOLO_MODEL_PATH: str = "runs/detect/train/weights/best.pt"
+    CONFIDENCE_THRESHOLD: float = 0.6  # Can use higher confidence now
     LICENSE_PLATE_MODEL_PATH: str = "data/models/license_plate_model.pt"
     
     # Video Processing
@@ -39,8 +40,7 @@ class Settings(BaseSettings):
     
     # Indian Traffic Specific
     INDIAN_VEHICLE_CLASSES: List[str] = [
-        "car", "motorcycle", "bus", "truck", "auto_rickshaw", 
-        "bicycle", "pedestrian", "cow", "dog"
+        "person", "bicycle", "car", "motorcycle", "bus", "truck", "traffic_light"
     ]
     
     class Config:
