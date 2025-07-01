@@ -4,6 +4,11 @@ from pydantic import BaseSettings
 from typing import List, Optional
 
 class Settings(BaseSettings):
+    
+    IS_RASPBERRY_PI: bool = platform.machine().startswith('arm')
+    PROCESSING_MODE: str = "rpi" if IS_RASPBERRY_PI else "standard"
+    MAX_RESOLUTION: str = "640x480" if IS_RASPBERRY_PI else "1920x1080"
+
     # API Configuration
     API_HOST: str = "0.0.0.0"
     API_PORT: int = 8000

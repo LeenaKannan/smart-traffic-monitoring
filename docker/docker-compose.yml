@@ -21,6 +21,17 @@ services:
       - kafka
     restart: unless-stopped
 
+  traffic-api-rpi:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.rpi
+    ports:
+      - "8001:8000"  # Different port
+    environment:
+      - PROCESSING_MODE=rpi
+    profiles:
+      - raspberry-pi
+
   postgres:
     image: postgres:13
     environment:

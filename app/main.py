@@ -10,6 +10,7 @@ from app.config.settings import settings
 from app.database.connection import create_tables
 from app.api.routes import app as routes_app
 from app.services.stream_processor import StreamProcessor
+import platform
 
 # Configure logging
 logging.basicConfig(
@@ -71,6 +72,10 @@ async def root():
 async def health_check():
     return {"status": "healthy", "version": "1.0.0"}
 
+if platform.machine().startswith('arm'):  # Raspberry Pi detection
+    from app.services.rpi_stream_processor import RPiStreamProcessor as StreamProcessor
+else:
+    from app.services.stream_processor import StreamProcessor
 if __name__ == "__main__":
     uvicorn.run(
         "app.main:app",
